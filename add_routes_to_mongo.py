@@ -7,7 +7,6 @@ from bson import ObjectId
 mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")  # Подключение к MongoDB
 db = mongo_client['pritunl']  # Выбор базы данных
 servers_collection = db['servers']  # Коллекция с серверами
-#server_id = ObjectId("67d344eb98a065e72c0b9803") # Укажите нужный ID сервера
 # Открытие файла и чтение всех server_id
 with open('pritunl-servers-id-mongo.txt', 'r') as file:
     server_ids = file.readlines()
@@ -38,10 +37,7 @@ with open('routes.txt', 'r') as file:
 # Добавление маршрутов для каждого server_id
 for server_id_str in server_ids:
     try:
-        # Преобразуем строковый server_id в ObjectId
         server_id = ObjectId(server_id_str)
-        
-        # Добавление маршрутов в MongoDB для каждого server_id
         for route in routes:
             result = servers_collection.update_one(
                 {"_id": server_id},  # Убедитесь, что ID сервера правильный
